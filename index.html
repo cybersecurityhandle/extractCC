@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Extractor</title>
+</head>
+<body>
+
+<h2>Credit Card Number Extractor</h2>
+
+<label for="text-input">Enter Text:</label>
+<textarea id="text-input" rows="4" cols="50"></textarea>
+
+<button onclick="extractNumbers()">Extract Numbers</button>
+
+<p><strong>Extracted Numbers:</strong></p>
+<ul id="results"></ul>
+
+<script>
+function extractNumbers() {
+    var text = document.getElementById("text-input").value;
+    // Simple regex for demonstration purposes, adjust as needed
+    var regex = /\b(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13})\b/g;
+    var matches = text.match(regex);
+    
+    var resultsContainer = document.getElementById("results");
+    resultsContainer.innerHTML = ""; // Clear previous results
+    
+    if (matches) {
+        matches.forEach(function(match) {
+            var li = document.createElement("li");
+            li.textContent = match;
+            resultsContainer.appendChild(li);
+        });
+    } else {
+        resultsContainer.innerHTML = "<li>No matches found</li>";
+    }
+}
+</script>
+
+</body>
+</html>
