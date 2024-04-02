@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Card Extractor</title>
+    <title>Credit Card Extractor With Clipboard Feature</title>
 </head>
 <body>
 
@@ -13,6 +13,7 @@
 <textarea id="text-input" rows="4" cols="50"></textarea>
 
 <button onclick="extractAndFormatNumbers()">Extract and Format Numbers</button>
+<button onclick="copyToClipboard()">Copy to Clipboard</button>
 
 <p><strong>Extracted Numbers:</strong></p>
 <p id="results"></p>
@@ -34,6 +35,19 @@ function extractAndFormatNumbers() {
         resultsContainer.textContent = "No matches found";
     }
 }
+function copyToClipboard() {
+    var textToCopy = document.getElementById("results").textContent;
+    if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy).then(function() {
+            alert('Copied to clipboard');
+        }).catch(function(error) {
+            alert('Error copying text: ' + error);
+        });
+    } else {
+        alert('No text to copy');
+    }
+}
+    
 </script>
 
 </body>
