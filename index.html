@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Card Extractor With Clipboard Feature</title>
+    <title>Credit Card Extractor with Clipboard Feature</title>
 </head>
 <body>
 
@@ -27,14 +27,13 @@ function extractAndFormatNumbers() {
     var resultsContainer = document.getElementById("results");
     
     if (matches) {
-
         var uniqueMatches = Array.from(new Set(matches));
-
         resultsContainer.textContent = uniqueMatches.join(", ");
     } else {
         resultsContainer.textContent = "No matches found";
     }
 }
+
 function copyToClipboard() {
     var textToCopy = document.getElementById("results").textContent;
     if (textToCopy) {
@@ -47,7 +46,6 @@ function copyToClipboard() {
         alert('No text to copy');
     }
 }
-    
 </script>
 
 </body>
