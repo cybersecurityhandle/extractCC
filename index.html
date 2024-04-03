@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credit Card Number Extractor</title>
     <style>
@@ -13,7 +14,7 @@
 
 <h2>Credit Card Number Extractor</h2>
 
-<p>Enter text with credit card numbers prefixed by "Aylo - Credit Card Number":</p>
+<p>Enter text with sequences following "Aylo - Credit Card Number":</p>
 <textarea id="text-input" rows="4" cols="50"></textarea>
 <br>
 <button onclick="extractCreditCardNumbers()">Extract Numbers</button>
@@ -23,17 +24,21 @@
 <script>
 function extractCreditCardNumbers() {
     var text = document.getElementById("text-input").value;
-    var regex = /(?:Aylo - Credit Card Number\s+)(\d{4}(?:[ -]?\d{2,4}){2,6})\b/g;
+    // Adjusted regex to capture 13 to 19 digit sequences after the specified prefix
+    var regex = /Aylo - Credit Card Number\s+((?:\d{1,4}[ -]?){3,6}\d{1,4})\b/g;
     let matches, extractedNumbers = [];
-    
+
     while ((matches = regex.exec(text)) !== null) {
         // Avoid infinite loops with zero-width matches
         if (matches.index === regex.lastIndex) {
             regex.lastIndex++;
         }
         
-        // Add the extracted credit card number to the array
-        extractedNumbers.push(matches[1]);
+        // Extract and clean the credit card number to remove any spaces or dashes
+        let cleanedNumber = matches[1].replace(/[ -]/g, '');
+        if(cleanedNumber.length >= 13 && cleanedNumber.length <= 19) {
+            extractedNumbers.push(cleanedNumber);
+        }
     }
 
     displayResults(extractedNumbers);
