@@ -2,13 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credit Card Number Extractor</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        #results { margin-top: 20px; }
-    </style>
 </head>
 <body>
 
@@ -17,40 +12,41 @@
 <p>Enter text with sequences following "Aylo - Credit Card Number":</p>
 <textarea id="text-input" rows="4" cols="50"></textarea>
 <br>
-<button onclick="extractCreditCardNumbers()">Extract Numbers</button>
+<button onclick="extractCreditCardNumbers()">Extract and Format Numbers</button>
+<button onclick="copyToClipboard()">Copy to Clipboard</button>
 
 <div id="results"></div>
 
 <script>
+// Regex to capture credit card numbers following the specific prefix
+var regex = /Aylo - Credit Card Number\s+(\d{1,5}(?:[ -]?\d{2,5}){2,5})\b/g;
+
 function extractCreditCardNumbers() {
     var text = document.getElementById("text-input").value;
-    // Adjusted regex to capture 13 to 19 digit sequences after the specified prefix
-    var regex = /Aylo - Credit Card Number\s+(\d{1,5}(?:[ -]?\d{2,5}){2,5})\b/g;
-
     let matches, extractedNumbers = [];
 
     while ((matches = regex.exec(text)) !== null) {
-        // Avoid infinite loops with zero-width matches
         if (matches.index === regex.lastIndex) {
             regex.lastIndex++;
         }
-        
-        // Extract and clean the credit card number to remove any spaces or dashes
-        let cleanedNumber = matches[1].replace(/[ -]/g, '');
-        if(cleanedNumber.length >= 13 && cleanedNumber.length <= 19) {
-            extractedNumbers.push(cleanedNumber);
-        }
+        // Remove non-digit characters for each match before adding to array
+        extractedNumbers.push(matches[1].replace(/[ -]/g, ''));
     }
 
-    displayResults(extractedNumbers);
+    // Format extracted numbers with comma and space
+    document.getElementById("results").textContent = extractedNumbers.join(", ");
 }
 
-function displayResults(numbersArray) {
-    var resultsContainer = document.getElementById("results");
-    if (numbersArray.length > 0) {
-        resultsContainer.innerHTML = "<p><strong>Extracted Numbers:</strong><br>" + numbersArray.join("<br>") + "</p>";
+function copyToClipboard() {
+    var textToCopy = document.getElementById("results").textContent;
+    if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert('Copied to clipboard');
+        }).catch((error) => {
+            alert('Error copying text: ', error);
+        });
     } else {
-        resultsContainer.innerHTML = "<p>No credit card numbers found.</p>";
+        alert('No text to copy');
     }
 }
 </script>
