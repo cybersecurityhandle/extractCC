@@ -21,7 +21,8 @@
 <script>
 function extractAndFormatNumbers() {
     var text = document.getElementById("text-input").value;
-    var regex = /Aylo - Credit Card Number\s+(\d{4}(?:[ -]?\d{2,4}){2,6})\b/g;
+    var regex = /(?:Aylo - Credit Card Number\s+)(\d{4}(?:[ -]?\d{2,4}){2,6})\b/g;
+
     
 
     var matches = text.match(regex);
