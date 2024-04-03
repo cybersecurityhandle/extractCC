@@ -25,7 +25,8 @@
 function extractCreditCardNumbers() {
     var text = document.getElementById("text-input").value;
     // Adjusted regex to capture 13 to 19 digit sequences after the specified prefix
-    var regex = /Aylo - Credit Card Number\s+((?:\d{1,4}[ -]?){3,6}\d{1,4})\b/g;
+    var regex = /Aylo - Credit Card Number\s+(\d{1,5}(?:[ -]?\d{2,5}){2,5})\b/g;
+
     let matches, extractedNumbers = [];
 
     while ((matches = regex.exec(text)) !== null) {
